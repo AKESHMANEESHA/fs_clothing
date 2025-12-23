@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>F&S Clothing - Loyalty & Gift Vouchers</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #fff;
+            color: #333;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            background-color: #fff;
+            border-bottom: 1px solid #eee;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+            align-items: center;
+        }
+
+        .nav-menu li {
+            position: relative;
+        }
+
+        .nav-menu a {
+            text-decoration: none;
+            color: #333;
+            font-weight: bold;
+            font-size: 14px;
+            padding: 5px 10px;
+            transition: color 0.3s, background-color 0.3s;
+        }
+
+        .nav-menu a:hover {
+            color: #000;
+            background-color: #f0f0f0;
+            border-radius: 4px;
+        }
+
+        /* Dropdown Menu Styles */
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background-color: #fff;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        .dropdown-content a {
+            color: #333;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+            transition: background-color 0.3s;
+        }
+
+        .dropdown-content a:hover {
+            background-color: #f0f0f0;
+        }
+
+        .nav-menu li:hover .dropdown-content {
+            display: block;
+        }
+
+        .logo img {
+            height: 40px;
+        }
+
+        .icons {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .icon-item {
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            transition: opacity 0.3s;
+        }
+
+        .icon-item:hover {
+            opacity: 0.7;
+        }
+
+        .icon-item img {
+            width: 24px;
+            height: 24px;
+        }
+
+        .icon-item span {
+            margin-left: 5px;
+            font-size: 14px;
+        }
+
+        .size-chart-trigger {
+            position: relative;
+            font-size: 11px;
+            color: #555;
+            cursor: pointer;
+            padding: 2px 6px;
+            border-radius: 3px;
+            transition: background-color 0.3s;
+        }
+
+        .size-chart-trigger:hover {
+            background-color: #f0f0f0;
+        }
+
+        .size-chart-dropdown {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: white;
+            min-width: 140px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            z-index: 3;
+            margin-top: 4px;
+        }
+
+        .size-chart-dropdown a {
+            display: block;
+            padding: 8px 12px;
+            color: #333;
+            text-decoration: none;
+            font-size: 13px;
+        }
+
+        .size-chart-dropdown a:hover {
+            background-color: #f9f9f9;
+        }
+
+        .size-chart-trigger:hover .size-chart-dropdown,
+        .size-chart-dropdown:hover {
+            display: block;
+        }
+
+        /* Breadcrumb */
+        .breadcrumb {
+            padding: 10px 20px;
+            font-size: 12px;
+            color: #666;
+        }
+
+        .breadcrumb a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+
+        /* Main Content */
+        .main-content {
+            max-width: 900px;
+            margin: 30px auto;
+            padding: 20px;
+            display: flex;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+
+        .card-container {
+            display: flex;
+            gap: 30px;
+            flex-wrap: wrap;
+            width: 100%;
+        }
+
+        .voucher-card {
+            width: 300px;
+            background-color: #111;
+            color: #fff;
+            padding: 20px;
+            border-radius: 12px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        .voucher-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .voucher-logo {
+            width: 100px;
+            height: auto;
+        }
+
+        .voucher-price {
+            background-color: #fff;
+            color: #000;
+            padding: 8px 16px;
+            border-radius: 50px;
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        .voucher-title {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .voucher-desc {
+            font-size: 13px;
+            margin-bottom: 15px;
+            line-height: 1.4;
+        }
+
+        .voucher-btn {
+            display: block;
+            width: 100%;
+            padding: 8px;
+            background-color: #fff;
+            color: #000;
+            border: none;
+            border-radius: 20px;
+            font-weight: bold;
+            text-align: center;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .voucher-btn:hover {
+            background-color: #e0e0e0;
+        }
+
+        /* Loyalty Card */
+        .loyalty-card {
+            width: 300px;
+            background-color: #111;
+            color: #fff;
+            padding: 20px;
+            border-radius: 12px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            border: 2px solid #007bff;
+        }
+
+        .loyalty-card .voucher-header {
+            margin-bottom: 10px;
+        }
+
+        .loyalty-desc {
+            font-size: 13px;
+            margin-bottom: 15px;
+            line-height: 1.4;
+        }
+
+        /* Popup Overlay (CSS Only Modal) */
+        .popup-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.7);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .popup-content {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            max-width: 300px;
+        }
+
+        .popup-content h3 {
+            margin-bottom: 15px;
+            color: #000;
+        }
+
+        .popup-close {
+            display: block;
+            margin-top: 15px;
+            padding: 8px 16px;
+            background-color: #000;
+            color: #fff;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .popup-close:hover {
+            background-color: #333;
+        }
+
+        /* Show popup when target is reached */
+        :target {
+            display: flex !important;
+        }
+
+        /* Custom Order Button */
+        .custom-order-btn {
+            display: block;
+            margin: 40px auto 30px;
+            padding: 15px 30px;
+            background-color: #e0e0e0;
+            color: #333;
+            border: none;
+            border-radius: 30px;
+            font-weight: bold;
+            font-size: 18px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.3s;
+            width: 80%;
+            max-width: 600px;
+            text-align: center;
+        }
+
+        .custom-order-btn:hover {
+            background-color: #d0d0d0;
+            transform: scale(1.05);
+        }
+
+        /* Footer */
+        .footer {
+            background-color: #000;
+            color: #fff;
+            text-align: center;
+            padding: 20px;
+            margin-top: 30px;
+            font-size: 14px;
+        }
+
+        .footer-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #444;
+            margin-bottom: 15px;
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .social-icons img {
+            width: 24px;
+            height: 24px;
+        }
+
+        .support-links {
+            text-align: left;
+            font-size: 12px;
+        }
+
+        .support-links a {
+            color: #aaa;
+            text-decoration: none;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .support-links a:hover {
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="header">
+        <ul class="nav-menu">
+            <li><a href="menclothing.html">MEN</a></li>
+            <li><a href="womenclohting.html">WOMEN</a></li>
+              <li><a href="./kidsclothing.html">KIDS</a></li>
+            <li>
+                <a href="#">Packages</a>
+                <div class="dropdown-content">
+                    <a href="./basicpackage.html">Basic Package</a>
+                    <a href="./standardpackage.html">Standard Package</a>
+                    <a href="./deluxepackage.html">Deluxe Package</a>
+                </div>
+            </li>
+             <li><a href="./giftvoucher.html">GIFT Vouchers</a></li>
+             <li><a href="./chechoutprocess.html">CHECKOUT</a></li>
+        </ul>
+        <div class="logo">
+            <img src="./logo.png" alt="F&S Clothing Logo">
+        </div>
+        <div class="icons">
+            <div class="icon-item">
+                <img src="./search-icon-symbol-design-illustration-vector.jpg" alt="Search">
+            </div>
+            <div class="icon-item">
+                <img src="./truck_860096.png" alt="Delivery">
+            </div>
+            <a href="signup.php">
+                <div class="icon-item">
+                    <span>LOGIN</span>
+                </div>
+            </a>
+            <div class="size-chart-trigger">
+                Size Charts
+                <div class="size-chart-dropdown">
+                    <a href="./womensizechartpage.html">Women Size Chart</a>
+                    <a href="./mensizechart.html">Men Size Chart</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Breadcrumb -->
+    <div class="breadcrumb">
+        <a href="index.html">HOME</a> / <a href="./men.html">MEN</a>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="card-container">
+            <!-- Loyalty Card -->
+            <div class="loyalty-card">
+                <div class="voucher-header">
+                    <img src="./logo.png" alt="F&S Clothing" class="voucher-logo">
+                </div>
+                <h3 class="voucher-title">LOYALTY PROGRAMM</h3>
+                <p class="loyalty-desc">Join our rewards family and unlock exclusive perks, early access to sales, and points on every purchase. Because loyal customers deserve more than just discounts.</p>
+                <a href="#joined-popup" class="voucher-btn">Join Now</a>
+            </div>
+
+            <!-- Gift Voucher Card 1 -->
+            <div class="voucher-card">
+                <div class="voucher-header">
+                    <img src="./logo.png" alt="F&S Clothing" class="voucher-logo">
+                    <div class="voucher-price">$1.99</div>
+                </div>
+                <h3 class="voucher-title">GIFT Voucher</h3>
+                <p class="voucher-desc">The perfect gift for every occasion</p>
+                <a href="#claimed-popup" class="voucher-btn">Claim NOW</a>
+            </div>
+
+            <!-- Gift Voucher Card 2 -->
+            <div class="voucher-card">
+                <div class="voucher-header">
+                    <img src="./logo.png" alt="F&S Clothing" class="voucher-logo">
+                    <div class="voucher-price">$5.99</div>
+                </div>
+                <h3 class="voucher-title">GIFT Voucher</h3>
+                <p class="voucher-desc">The perfect gift for every occasion</p>
+                <a href="#claimed-popup" class="voucher-btn">Claim NOW</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Custom Order Button -->
+    <button class="custom-order-btn">Contact us for Custom Orders</button>
+
+    <!-- Popups (CSS Only) -->
+    <div id="joined-popup" class="popup-overlay">
+        <div class="popup-content">
+            <h3>Joined!</h3>
+            <p>You've successfully joined our loyalty program.</p>
+            <a href="#" class="popup-close">Close</a>
+        </div>
+    </div>
+
+    <div id="claimed-popup" class="popup-overlay">
+        <div class="popup-content">
+            <h3>Claimed Successfully!</h3>
+            <p>Your gift voucher has been claimed.</p>
+            <a href="#" class="popup-close">Close</a>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-top">
+            <div>
+                <div>Follow us</div>
+                <div class="social-icons">
+                <img src="./social_13051733.png" alt="Facebook">
+                <img src="./instagram_1384063.png" alt="Instagram">
+                <img src="./tik-tok_3046121.png" alt="TikTok">
+                <img src="./youtube_174883.png" alt="YouTube">
+                </div>
+            </div>
+            <div>
+                <strong>Unstoppable Where I Stand</strong>
+            </div>
+            <div class="support-links">
+                <strong>Support</strong>
+                <a href="#">Terms and conditions</a>
+                <a href="#">Privacy policy</a>
+                <a href="#">Shipping policy</a>
+            </div>
+        </div>
+        &copy; 2025 F&S Clothing. All rights reserved.
+    </footer>
+
+</body>
+</html>

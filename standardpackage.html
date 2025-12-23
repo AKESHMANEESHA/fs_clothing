@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Standard Clothing Package - F&S Clothing</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #fff;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            background-color: #fff;
+            border-bottom: 1px solid #eee;
+        }
+
+        .logo img {
+            height: 40px;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-menu li {
+            margin-left: 20px;
+            position: relative;
+        }
+
+        .nav-menu a {
+            text-decoration: none;
+            color: #333;
+            font-weight: bold;
+            padding: 5px 10px;
+            transition: color 0.3s, background-color 0.3s;
+        }
+
+        .nav-menu a:hover {
+            color: #000;
+            background-color: #f0f0f0;
+            border-radius: 4px;
+        }
+
+        /* Packages Dropdown */
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background-color: #fff;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        .dropdown-content a {
+            color: #333;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+            transition: background-color 0.3s;
+        }
+
+        .dropdown-content a:hover {
+            background-color: #f0f0f0;
+        }
+
+        .nav-menu li:hover .dropdown-content {
+            display: block;
+        }
+
+        .search-icon, .user-icon, .delivery-icon {
+            width: 24px;
+            height: 24px;
+            margin-left: 15px;
+            cursor: pointer;
+            transition: opacity 0.3s;
+        }
+
+        .search-icon:hover, .user-icon:hover, .delivery-icon:hover {
+            opacity: 0.7;
+        }
+            /* --- Size Chart Below User Icon --- */
+.user-and-size {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-left: 15px;
+}
+
+.size-chart-trigger {
+    font-size: 11px;
+    color: #555;
+    margin-top: 5px;
+    cursor: pointer;
+    position: relative;
+    padding: 2px 6px;
+    border-radius: 3px;
+}
+
+.size-chart-trigger:hover,
+.size-chart-dropdown:hover {
+    background-color: #f0f0f0;
+}
+
+.size-chart-dropdown {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: white;
+    min-width: 140px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    z-index: 3;
+    margin-top: 4px;
+}
+
+.size-chart-dropdown a {
+    display: block;
+    padding: 8px 12px;
+    color: #333;
+    text-decoration: none;
+    font-size: 13px;
+}
+
+.size-chart-dropdown a:hover {
+    background-color: #f9f9f9;
+}
+
+/* Show dropdown when hovering over trigger OR the dropdown itself */
+.size-chart-trigger:hover .size-chart-dropdown,
+.size-chart-dropdown:hover {
+  display: flex;
+    list-style: none;
+}
+
+        .breadcrumb {
+            padding: 10px 20px;
+            font-size: 12px;
+            color: #666;
+        }
+
+        .breadcrumb a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin: 20px 20px 15px;
+            border-bottom: 2px solid #333;
+            padding-bottom: 5px;
+            display: inline-block;
+        }
+
+        .package-section {
+            padding: 20px;
+        }
+
+        .package-header {
+            margin: 15px 0;
+            font-size: 16px;
+            font-weight: bold;
+            color: #333;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+
+        .product-row {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .product-item {
+            position: relative;
+            cursor: pointer;
+            transition: transform 0.3s;
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .product-item:hover {
+            transform: scale(1.05);
+        }
+
+        .product-item img {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-radius: 8px;
+        }
+
+        .product-label {
+            margin-top: 10px;
+            font-size: 14px;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin: 15px 0;
+        }
+
+        .add-to-cart,
+        .buy-now {
+            display: block;
+            padding: 8px 15px;
+            background-color: #000;
+            color: #fff;
+            border: none;
+            border-radius: 20px;
+            font-weight: bold;
+            text-decoration: none;
+            text-align: center;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+        .add-to-cart:hover,
+        .buy-now:hover {
+            background-color: #333;
+            transform: scale(1.1);
+        }
+
+        .buy-now {
+            background-color: #ff6b6b;
+        }
+
+        .buy-now:hover {
+            background-color: #ff5252;
+        }
+
+        .custom-order-btn {
+            display: block;
+            margin: 30px auto;
+            padding: 15px 30px;
+            background-color: #eee;
+            color: #333;
+            border: none;
+            border-radius: 30px;
+            font-weight: bold;
+            font-size: 18px;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.3s;
+            text-align: center;
+        }
+
+        .custom-order-btn:hover {
+            background-color: #ddd;
+            transform: scale(1.05);
+        }
+
+        .footer {
+            background-color: #000;
+            color: #fff;
+            text-align: center;
+            padding: 15px;
+            font-size: 14px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+        }
+
+        .footer-left {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .footer-right {
+            text-align: right;
+            font-size: 12px;
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 10px;
+            margin-top: 5px;
+        }
+
+        .social-icons img {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+    </style>
+    <link rel="icon" type="logo.png" href="logo.png">
+</head>
+<body>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="logo">
+            <!-- Replace 'fs-logo.png' with your actual logo file path -->
+            <img src="./logo.png" alt="F&S Clothing Logo">
+        </div>
+        <ul class="nav-menu">
+            <li><a href="./menclothing.html">MEN</a></li>
+            <li><a href="./womenclohting.html">WOMEN</a></li> <li><a href="./kidsclothing.html">KIDS</a></li>
+            <li>
+                <a href="#">PACKAGES</a>
+                <div class="dropdown-content">
+                    <a href="./basicpackage.html">Basic Package</a>
+                    <a href="./standardpackage.html">Standard Package</a>
+                    <a href="./deluxepackage.html">Deluxe Package</a>
+                </div>
+            </li> <li><a href="./giftvoucher.html">GIFT Vouchers</a></li>
+            <li><a href="./chechoutprocess.html">CHECKOUT</a></li>
+        </ul>
+        <div class="icons">
+            <!-- Replace 'search-icon.png', 'delivery-icon.png', 'user-icon.png' with your actual icon file paths -->
+            <img src="./search-icon-symbol-design-illustration-vector.jpg" alt="Search" class="search-icon">
+            <img src="./truck_860096.png" alt="Fast Delivery" class="delivery-icon">
+            <a href="signup.php"><img src="./user-profile-icon-free-vector.jpg" alt="Login" class="user-icon"></a>
+            <div class="size-chart-trigger">
+            Size Chart
+            <div class="size-chart-dropdown">
+                <a href="./womensizechartpage.html">Women Size Chart</a>
+                <a href="./mensizechart.html">Men Size Chart</a>
+            </div>
+        </div>
+        </div>
+    </header>
+
+    <!-- Breadcrumb -->
+    <div class="breadcrumb">
+        <a href="./index.html">HOME</a> /  <a href="./standardpackage.html">Standard Clothing Package</a>
+    </div>
+
+    <!-- Men's Standard Clothing Package -->
+    <div class="package-section">
+        <div class="package-header">Men's Standard Clothing Package</div>
+        <div class="product-row">
+            <!-- Product 1 -->
+            <div class="product-item">
+                <a href="#">
+                    <!-- Replace 'men-tshirt.jpg' with your actual image file path -->
+                    <img src="./Men's Solid Color Front Closure Pocket Long Sleeve Jacket.jpg" alt="Men Jacket">
+                </a>
+                <div class="product-label">T-Shirt</div>
+            </div>
+            <!-- Product 2 -->
+            <div class="product-item">
+                <a href="#">
+                    <!-- Replace 'men-pants.jpg' with your actual image file path -->
+                    <img src="./Mens trousers.jpg" alt="Men Pants">
+                </a>
+                <div class="product-label">Pants</div>
+            </div>
+            <!-- Product 3 -->
+            <div class="product-item">
+                <a href="#">
+                    <!-- Replace 'men-jacket.jpg' with your actual image file path -->
+                    <img src="./men tshirt long sleeve.jpg" alt="Men Jacket">
+                </a>
+                <div class="product-label">Jacket</div>
+            </div>
+            <!-- Product 4 -->
+            <div class="product-item">
+                <a href="#">
+                    <!-- Replace 'men-wallet.jpg' with your actual image file path -->
+                    <img src="./Men Letter Embossed Small Wallet.jpg" alt="Men Wallet">
+                </a>
+                <div class="product-label">Wallet</div>
+            </div>
+        </div>
+        <div class="action-buttons">
+            <a href="#" class="add-to-cart">ADD TO CART</a>
+            <a href="#" class="buy-now">BUY NOW</a>
+        </div>
+    </div>
+
+    <!-- Women's Standard Clothing Package -->
+    <div class="package-section">
+        <div class="package-header">Women's Standard Clothing Package</div>
+        <div class="product-row">
+            <!-- Product 5 -->
+            <div class="product-item">
+                <a href="#">
+                    <!-- Replace 'women-top.jpg' with your actual image file path -->
+                    <img src="./women top.jpg" alt="Women Top">
+                </a>
+                <div class="product-label">Top</div>
+            </div>
+            <!-- Product 6 -->
+            <div class="product-item">
+                <a href="#">
+                    <!-- Replace 'women-pants.jpg' with your actual image file path -->
+                    <img src="./women pant.jpg" alt="Women Pants">
+                </a>
+                <div class="product-label">Pants</div>
+            </div>
+            <!-- Product 7 -->
+            <div class="product-item">
+                <a href="#">
+                    <!-- Replace 'women-sweater.jpg' with your actual image file path -->
+                    <img src="./women sweater.jpg" alt="Women Sweater">
+                </a>
+                <div class="product-label">Sweater</div>
+            </div>
+            <!-- Product 8 -->
+            <div class="product-item">
+                <a href="#">
+                    <!-- Replace 'women-bag.jpg' with your actual image file path -->
+                    <img src="./women bag.jpg" alt="Women Bag">
+                </a>
+                <div class="product-label">Bag</div>
+            </div>
+        </div>
+        <div class="action-buttons">
+            <a href="#" class="add-to-cart">ADD TO CART</a>
+            <a href="#" class="buy-now">BUY NOW</a>
+        </div>
+    </div>
+
+    <!-- Custom Order Button -->
+    <button class="custom-order-btn">Contact us for Custom Orders</button>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-left">
+            <div>Follow us</div>
+            <div class="social-icons">
+                <!-- Replace with your actual social icon paths -->
+                <img src="./social_13051733.png" alt="Facebook">
+                <img src="./instagram_1384063.png" alt="Instagram">
+                <img src="./tik-tok_3046121.png" alt="Tiktok">
+                <img src="./youtube_174883.png" alt="YouTube">
+            </div>
+        </div>
+         <div>Unstoppable Where I Stand</div>
+        <div class="footer-right">
+           
+            <div>Support</div>
+            <div>Terms and Conditions</div>
+            <div>Privacy Policy</div>
+            <div>Shipping Policy</div>
+        </div>
+    </footer>
+
+</body>
+</html>
